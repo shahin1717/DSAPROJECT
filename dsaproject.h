@@ -1,5 +1,6 @@
 #ifndef DSAPROJECT_H
 #define DSAPROJECT_H
+#include <stdbool.h>
 
 typedef struct student {
     char name[50];
@@ -20,6 +21,7 @@ void sortlist(struct student* );
 float averagexam (struct student *); 
 void splitlist(struct student*,struct student**, struct student**); 
 struct student* mergelists(struct student*, struct student*); 
-
+bool check_valid_id(student*,long );
+void freelist(struct student* );
+void deleteById(struct student**, long);
 #endif // DSAPROJECT_H
-
