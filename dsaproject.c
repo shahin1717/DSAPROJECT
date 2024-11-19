@@ -160,6 +160,67 @@ float averagexam(student* head) {
         sum += temp->grade;
         count++;    
         temp = temp->next;
-    }
+    }    
     return sum / count;
+}
+
+
+void splitlist(struct student *head, struct student **higher, struct student **lower) {
+    *higher = NULL;  // initialize list for higher than 65
+    *lower = NULL;   // initialize list for lower than 65
+    struct student *current = head;
+
+    while (current != NULL) {
+        struct student *newNode = (struct student *)malloc(sizeof(struct student));
+        if (newNode == NULL) {
+            printf("Memory allocation failed!\n");
+            exit(1);
+        }
+        // copy the current student's data to the new node
+        strcpy(newNode->name, current->name);
+        newNode->id_num = current->id_num;
+        newNode->grade = current->grade;
+        newNode->next = NULL;
+
+        // add to the end of correct list 
+        if (current->grade >= 65) {
+            if (*higher == NULL) {
+                *higher = newNode;
+            } else {
+                struct student *temp = *higher;
+                while (temp->next != NULL) {
+                    temp = temp->next;
+                }
+                temp->next = newNode;
+            }
+        } else {
+            if (*lower == NULL) {
+                *lower = newNode;
+            } else {
+                struct student *temp = *lower;
+                while (temp->next != NULL) {
+                    temp = temp->next;
+                }
+                temp->next = newNode;
+            }
+        }
+        current = current->next; // move to the next student in the full list
+    }
+}
+
+struct student* mergelists(struct student *lower, struct student *higher) {
+    sortlist(lower); // sort students that got less that 65
+    sortlist(higher); // sort students that got more that 65
+
+    if (lower == NULL) return higher;
+    if (higher == NULL) return lower;
+
+    struct student *current = lower;
+    while (current->next != NULL) // merges them by adding higher list to the end of lower list
+    {
+        current = current->next;
+    }
+    current->next = higher->next;    
+
+    return lower;
 }
