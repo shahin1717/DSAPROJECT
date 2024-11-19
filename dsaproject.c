@@ -11,10 +11,13 @@ student* createstudent(void) {
         exit(1); // Exit if memory allocation fails
     }
     newstudent->next = NULL; // Initialize the next pointer to NULL
-
     return newstudent;}
 
 void displaylist(student* head) {
+    if (head == NULL) {
+        printf("No students to display.\n");
+        return;
+    }
     student* tempr = head;
     while( tempr != NULL) {
         printf("Name: %s\n", tempr->name);
@@ -23,6 +26,7 @@ void displaylist(student* head) {
         printf("\n");
         tempr = tempr->next;
     }
+    
 }
 student* addstudent(student* head, char name[], long id, float grade) {
     student* newstudent = createstudent();
@@ -65,6 +69,11 @@ int findstudent(student* head, long id) {
 }
 
 void deletelaststudent(student* head) {
+     if (head == NULL) {
+        printf("The list is empty, nothing to delete.\n");
+        printf("Press any key to continue...\n");
+        return;
+    }
     student* temp = head;
     student* prev = NULL;
     while (temp->next != NULL) {
@@ -80,24 +89,68 @@ void deletelaststudent(student* head) {
     }
 }
 
-void sortlist(student* head) {
-    student* temp1 = head;
-    student* temp2 = NULL;
-    float tempGrade;
-    while (temp1 != NULL) {
-        temp2 = temp1->next;
-        while (temp2 != NULL) {
-            if (temp1->grade > temp2->grade) {
-                // Swap grades
-                tempGrade = temp1->grade;
-                temp1->grade = temp2->grade;
-                temp2->grade = tempGrade;
+void deleteById(struct student **head, long id_num) {
+    int index = findstudent(*head, id_num);
+    if (index == -1) {
+        printf("Student with ID %ld not found.\n", id_num);
+        return;
+    }
+
+    if (*head == NULL) {
+        printf("The list is empty, nothing to delete.\n");
+        return;
+    }
+
+    if (index == 0) {
+        // Delete the first student
+        struct student *temp = *head;
+        *head = (*head)->next;
+        free(temp);
+        printf("Student with ID %ld deleted from index %d.\n", id_num, index);
+        return;
+    }
+
+    // Traverse to the student just before the one to delete
+    struct student *current = *head;
+    for (int i = 0; i < index - 1; i++) {
+        current = current->next;
+    }
+
+    struct student *temp = current->next; // Node to be deleted
+    current->next = temp->next;           // Bypass the node
+    free(temp);                           // Free the memory
+    printf("Student with ID %ld deleted from index %d.\n", id_num, index);
+}
+
+void sortlist(struct student* head) {
+    if (head == NULL || head->next == NULL) return; // If the list has 0 or 1 element, no need to sort
+
+    struct student *i, *j;
+    long temp_id;
+    float temp_grade;
+    char temp_name[50];
+
+    // Bubble sort: Traverse through the list and swap nodes as needed
+    for (i = head; i != NULL; i = i->next) {
+        for (j = i->next; j != NULL; j = j->next) {
+            if (i->id_num > j->id_num) {
+                // Swap the entire nodes
+                temp_id = i->id_num;
+                i->id_num = j->id_num;
+                j->id_num = temp_id;
+
+                temp_grade = i->grade;
+                i->grade = j->grade;
+                j->grade = temp_grade;
+
+                strcpy(temp_name, i->name);
+                strcpy(i->name, j->name);
+                strcpy(j->name, temp_name);
             }
-            temp2 = temp2->next;
         }
-        temp1 = temp1->next;
     }
 }
+
 
 float averagexam(student* head) {
     student* temp = head;
@@ -105,7 +158,7 @@ float averagexam(student* head) {
     int count = 0;
     while (temp != NULL) {
         sum += temp->grade;
-        count++;
+        count++;    
         temp = temp->next;
     }
     return sum / count;
