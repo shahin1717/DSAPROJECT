@@ -1,8 +1,3 @@
-        #include <stdio.h>
-        #include <string.h>
-        #include "dsaproject.h"
-        #include <stdlib.h>
-
         int main(){
             
             printf("\t\033[1;36mWelcome to the Student Management Systems\033[0m\n");
@@ -29,7 +24,15 @@
             printf("11. Exit\n");
             printf("Enter your choice: "); 
             int choice;
-            scanf("%d", &choice);
+            while (1){
+                if(scanf("%d", &choice)==1){
+                    break;
+                }
+                else{
+                    printf("Invalid input. Please enter a number.\n");
+                    scanf("%*[^\n]"); // Clear the input buffer
+                }
+            }
             printf("\033[H\033[J"); 
             switch(choice) {
             
@@ -56,25 +59,65 @@
                     float grade;
                     printf("Enter number of students: \n");
                     int num;
-                    scanf("%d", &num);
+                    while (1){
+                        if(scanf("%d", &num)==1){
+                            break;
+                        }
+                        else{
+                            printf("Invalid input. Please enter a number.\n");
+                            scanf("%*[^\n]"); // Clear the input buffer
+                        }
+                    }
                     for(int i=0; i<num; i++){
                     printf("Enter the name of the student: ");
                     scanf("%s", name);
                     printf("Enter the ID of the student: ");
-                    scanf("%ld", &id);
+                    while (1){
+                        if(scanf("%ld", &id)==1){
+                            break;
+                        }
+                        else{
+                            printf("Invalid input. Please enter a number.\n");
+                            scanf("%*[^\n]"); // Clear the input buffer
+                        }
+                    }
                     while(!check_valid_id(head, id)){
                         printf("ID already used. Enter a different ID: ");
-                        scanf("%ld", &id);
+                        while (1){
+                            if(scanf("%ld", &id)==1){
+                                break;
+                            }
+                            else{
+                                printf("Invalid input. Please enter a number.\n");
+                                scanf("%*[^\n]"); // Clear the input buffer
+                            }
+                        }
                     }
                     printf("Enter the grade of the student: ");
-                    scanf("%f", &grade);
+                    while (1){
+                        if(scanf("%d", &num)==1){
+                            break;
+                        }
+                        else{
+                            printf("Invalid input. Please enter a number.\n");
+                            scanf("%*[^\n]"); // Clear the input buffer
+                        }
+                    }
                     head = addstudent(head, name, id, grade);}
                     break;
                 case 3:
                     student* temp2 = head;
                     int id_search;
                     printf("Enter the ID of the student you want to search for: ");
-                    scanf("%d", &id_search);
+                    while (1){
+                        if(scanf("%d", &id_search)==1){
+                            break;
+                        }
+                        else{
+                            printf("Invalid input. Please enter a number.\n");
+                            scanf("%*[^\n]"); // Clear the input buffer
+                        }
+                    }
                     int index = findstudent(head, id_search);
                     if (index == -1) {
                         printf("Student not found.\n");
@@ -126,7 +169,15 @@
                 case 9:
                     printf("Enter the ID of the student you want to delete: ");
                     long id_num;
-                    scanf("%ld", &id_num);
+                    while (1){
+                        if(scanf("%ld", &id_num)==1){
+                            break;
+                        }
+                        else{
+                            printf("Invalid input. Please enter a number.\n");
+                            scanf("%*[^\n]"); // Clear the input buffer
+                        }
+                    }
                     deleteById(&head, id_num);
                     break;
                 case 10:
