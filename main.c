@@ -1,14 +1,19 @@
         #include <stdio.h>
         #include <string.h>
         #include "dsaproject.h"
+        #include <stdlib.h>
 
         int main(){
+            
+            printf("\t\033[1;36mWelcome to the Student Management Systems\033[0m\n");
+            puts("");
+            puts("");
             char c;
             student* head = NULL;
             student* highlevel = NULL;
             student* lowlevel = NULL;
             while(1){
-            printf("Menu:\n");
+            printf("\t\t\t\033[1;32mMenu:\033[0m\n");
             printf("1. Enter students\n");
             printf("2. Add new student\n");
             printf("3. Search for a student\n");
@@ -128,7 +133,10 @@
                     freelist(head);
                     break;
                 case 11:
-                    // Exit
+                    printf("\t\t\t\033[1;32;40mThanks for using the Student Management System!!!\03\033[0m\n");
+                    printf("\t\t\033[1;40mCreated by Alakparov Shahin, Alihzade Fidan, Aliyeva Nazrin\033[0m\n"); 
+                    printf("\t\t\t\t\033[1;40mExiting program...\02\033[0m\n");
+                    exit(1);
                     break;
                 default:
                     printf("Invalid choice. Please try again.\n");
