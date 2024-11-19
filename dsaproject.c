@@ -1,8 +1,22 @@
 
+
 #include "dsaproject.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
+
+bool check_valid_id(student* head,long id) {
+    student* temp = head;
+    while (temp != NULL) {
+        if (temp->id_num == id) {
+            return false; // ID already used
+        }
+        temp = temp->next;
+    }
+    return true;
+} 
+
 student* createstudent(void) {
     // Dynamically allocate memory for the student
     student* newstudent = (student*)malloc(sizeof(student));
@@ -10,8 +24,18 @@ student* createstudent(void) {
         printf("Memory allocation failed!\n");
         exit(1); // Exit if memory allocation fails
     }
-    newstudent->next = NULL; // Initialize the next pointer to NULL
-    return newstudent;}
+    newstudent->next = NULL;
+    printf("Enter the name of the student: ");
+    scanf("%s", newstudent->name);
+    printf("Enter the ID of the student: ");
+    scanf("%ld", &newstudent->id_num);   
+    printf("Enter the grade of the student: ");
+    scanf("%f", &newstudent->grade);
+        
+    return newstudent;
+    }
+
+
 
 void displaylist(student* head) {
     if (head == NULL) {
@@ -20,31 +44,43 @@ void displaylist(student* head) {
     }
     student* tempr = head;
     while( tempr != NULL) {
+        printf("|------------------------------|\n");
         printf("Name: %s\n", tempr->name);
         printf("ID: %ld\n", tempr->id_num);
         printf("Grade: %.2f\n", tempr->grade);
-        printf("\n");
         tempr = tempr->next;
     }
+        printf("|------------------------------|\n");
     
 }
 student* addstudent(student* head, char name[], long id, float grade) {
-    student* newstudent = createstudent();
+    // Dynamically allocate memory for a new student
+    student* newstudent = (student*)malloc(sizeof(student));
+    if (newstudent == NULL) {
+        printf("Memory allocation failed!\n");
+        return head;
+    }
+
+    // Initialize new student data
     strcpy(newstudent->name, name);
     newstudent->id_num = id;
     newstudent->grade = grade;
-    student* temp = head;
+    newstudent->next = NULL;
+
+    // Add to the end of the list
     if (head == NULL) {
-        head = newstudent;
-    } else {
-        while (temp->next != NULL) {
-            temp = temp->next;
-        }
-        temp->next = newstudent;
+        // If the list is empty, the new student becomes the head
+        return newstudent;
     }
+
+    // Traverse to the end of the list
+    student* temp = head;
+    while (temp->next != NULL) {
+        temp = temp->next;
+    }
+    temp->next = newstudent; // Add the new student at the end
     return head;
 }
-
 int studentcount(student* head) {
     int count = 0;
     student* temp = head;
@@ -72,6 +108,9 @@ void deletelaststudent(student* head) {
      if (head == NULL) {
         printf("The list is empty, nothing to delete.\n");
         printf("Press any key to continue...\n");
+        getchar();
+        char c;
+        c=getchar();
         return;
     }
     student* temp = head;
@@ -133,7 +172,8 @@ void sortlist(struct student* head) {
     // Bubble sort: Traverse through the list and swap nodes as needed
     for (i = head; i != NULL; i = i->next) {
         for (j = i->next; j != NULL; j = j->next) {
-            if (i->id_num > j->id_num) {
+            // Compare by grade instead of ID
+            if (i->grade < j->grade) {
                 // Swap the entire nodes
                 temp_id = i->id_num;
                 i->id_num = j->id_num;
@@ -150,7 +190,6 @@ void sortlist(struct student* head) {
         }
     }
 }
-
 
 float averagexam(student* head) {
     student* temp = head;
@@ -206,21 +245,43 @@ void splitlist(struct student *head, struct student **higher, struct student **l
         }
         current = current->next; // move to the next student in the full list
     }
+    sortlist(*lower); // sort students that got less than 65
+    sortlist(*higher); // sort students that got more than 65
+
+    // Print the higher and lower lists
+    printf("Higher than 65:\n");
+    displaylist(*higher);
+    printf("Lower than 65:\n");
+    displaylist(*lower);
 }
 
 struct student* mergelists(struct student *lower, struct student *higher) {
-    sortlist(lower); // sort students that got less that 65
-    sortlist(higher); // sort students that got more that 65
+    // Sort the individual lists if required (by grade)
 
-    if (lower == NULL) return higher;
-    if (higher == NULL) return lower;
+    if (lower == NULL) return higher;  // if lower list is empty, return higher
+    if (higher == NULL) return lower;  // if higher list is empty, return lower
 
     struct student *current = lower;
-    while (current->next != NULL) // merges them by adding higher list to the end of lower list
-    {
+    
+    // Traverse to the end of the lower list
+    while (current->next != NULL) {
         current = current->next;
     }
-    current->next = higher->next;    
+    
+    // Merge the higher list to the end of the lower list
+    current->next = higher; // attach higher list directly to lower
 
-    return lower;
+    return lower;  // Return the merged list
 }
+
+void freelist(struct student* head) {
+    struct student* temp;
+    while (head != NULL) {
+        temp = head;
+        head = head->next;
+        free(temp);  // Free the current node
+    }
+    head = NULL;  // Set the head to NULL after freeing
+    printf("List freed.\n");
+}
+
