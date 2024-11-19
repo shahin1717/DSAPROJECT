@@ -1,5 +1,3 @@
-
-
 #include "dsaproject.h"
 #include <stdio.h>
 #include <string.h>
@@ -44,13 +42,13 @@ void displaylist(student* head) {
     }
     student* tempr = head;
     while( tempr != NULL) {
-        printf("|------------------------------|\n");
+        printf("\033[1;32m|------------------------------|\033[0m\n");
         printf("Name: %s\n", tempr->name);
         printf("ID: %ld\n", tempr->id_num);
         printf("Grade: %.2f\n", tempr->grade);
         tempr = tempr->next;
     }
-        printf("|------------------------------|\n");
+        printf("\033[1;32m|------------------------------|\033[0m\n");
     
 }
 student* addstudent(student* head, char name[], long id, float grade) {
@@ -249,9 +247,9 @@ void splitlist(struct student *head, struct student **higher, struct student **l
     sortlist(*higher); // sort students that got more than 65
 
     // Print the higher and lower lists
-    printf("Higher than 65:\n");
+    printf("[1;34mHigher than 65:\033[0m\n");
     displaylist(*higher);
-    printf("Lower than 65:\n");
+    printf("1;34mLower than 65:\033[0m\n");
     displaylist(*lower);
 }
 
