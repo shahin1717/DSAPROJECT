@@ -1,8 +1,8 @@
-#include "dsaproject.h"
 #include <stdio.h>
 #include <string.h>
+#include "dsaproject.h"
 #include <stdlib.h>
-#include <stdbool.h>
+#include <unistd.h>
 
 bool check_valid_id(student* head,long id) {
     student* temp = head;
@@ -14,12 +14,12 @@ bool check_valid_id(student* head,long id) {
     }
     return true;
 } 
-
+/*
 student* createstudent(void) {
     // Dynamically allocate memory for the student
     student* newstudent = (student*)malloc(sizeof(student));
     if (newstudent == NULL) {
-        printf("Memory allocation failed!\n");
+        printf("\033[1;31mMemory allocation failed!\033[0m\n");
         exit(1); // Exit if memory allocation fails
     }
     newstudent->next = NULL;
@@ -31,13 +31,68 @@ student* createstudent(void) {
     scanf("%f", &newstudent->grade);
         
     return newstudent;
+}*/
+
+student* createstudent(void) {
+    struct student *head = NULL;      // Pointer to the head of the list
+    struct student *current = NULL;   // Pointer to track the current student in the list
+    char stopCondition;           // Variable to control the loop
+
+    while (1) {
+        printf("Do you want to add a student? (y/n): ");
+        while (scanf(" %c", &stopCondition) != 1) {
+            printf("\033[1;31mInvalid input. Please enter a character.\033[0m\n");
+            scanf("%*[^\n]");
+        }
+        while (stopCondition != 'y' && stopCondition != 'n') {
+            printf("\033[1;31mInvalid input. Please enter y or n.\033[0m\n");
+            scanf(" %c", &stopCondition);
+        }
+        // Stop adding students if the user inputs n
+        if (stopCondition == 'n') {
+            break;
+        }
+
+        // Allocate memory for a new student node
+        struct student *newStudent = (struct student *)malloc(sizeof(struct student));
+        if (newStudent == NULL) {
+            printf("\033[1;31mMemory allocation failed!\033[0m\n");
+            exit(1);
+        }
+
+        // Prompt the user for student details
+        printf("Enter student name: ");
+        scanf("%s", newStudent->name);
+        printf("Enter student card ID number: ");
+        scanf("%ld", &newStudent->id_num);
+        printf("Enter student grade: ");
+        scanf("%f", &newStudent->grade);
+        printf("\n"); 
+        getchar();
+
+        // Initialize the next pointer to NULL
+        newStudent->next = NULL;
+
+        // Add the new student to the list
+        if (head == NULL) {
+            head = newStudent;  // Set the first student as the head
+        } else {
+            current->next = newStudent;  // Link the new student to the current last student
+        }
+        current = newStudent;  // Update the current pointer to the new student
     }
+
+    // Return the head of the list
+    return head;
+}
+
+
 
 
 
 void displaylist(student* head) {
     if (head == NULL) {
-        printf("No students to display.\n");
+        printf("\033[1;31mNo students to display.\033[0m\n");
         return;
     }
     student* tempr = head;
@@ -55,7 +110,7 @@ student* addstudent(student* head, char name[], long id, float grade) {
     // Dynamically allocate memory for a new student
     student* newstudent = (student*)malloc(sizeof(student));
     if (newstudent == NULL) {
-        printf("Memory allocation failed!\n");
+        printf("\033[1;31mMemory allocation failed!\033[0m\n");
         return head;
     }
 
@@ -210,7 +265,7 @@ void splitlist(struct student *head, struct student **higher, struct student **l
     while (current != NULL) {
         struct student *newNode = (struct student *)malloc(sizeof(struct student));
         if (newNode == NULL) {
-            printf("Memory allocation failed!\n");
+            printf("\033[1;31mMemory allocation failed!\033[0m\n");
             exit(1);
         }
         // copy the current student's data to the new node
@@ -282,4 +337,3 @@ void freelist(struct student* head) {
     head = NULL;  // Set the head to NULL after freeing
     printf("List freed.\n");
 }
-
