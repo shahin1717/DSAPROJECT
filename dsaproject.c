@@ -1,4 +1,5 @@
 
+
 #include <stdio.h>
 #include <string.h>
 #include "dsaproject.h"
@@ -160,7 +161,6 @@ void deletelaststudent(student* head) {
         return; 
     }
 
-    printf("\033[1;32mDeleting the last student...\033[0m\n");
 
     student* temp = head; // Temporary pointer to go though the list
     student* prev = NULL; // Pointer to keep track of the previous node
@@ -183,7 +183,6 @@ void deletelaststudent(student* head) {
     }
 
     usleep(500000); // Pause for half a second for user experience
-    printf("\033[1;32mLast student deleted.\033[0m\n"); 
 }
 
 
