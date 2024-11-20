@@ -1,17 +1,21 @@
+        #include <stdio.h>
+        #include <string.h>
+        #include "dsaproject.h"
+        #include <stdlib.h>
+        #include <unistd.h>
+        #define MAX 50
+
 int main() {
     printf("\033[1;36m");
     printf("\n=============================================================\n");
     printf("\033[0m");
-    printf("\033[1;36m W"); usleep(100000);
-    printf("e"); usleep(100000);
-    printf("l"); usleep(100000);
-    printf("c"); usleep(100000);
-    printf("o"); usleep(100000);
-    printf("m"); usleep(100000);
-    printf("e"); usleep(100000);
-    printf(" to the Student Management System\033[0m\n");
+    char welcome[50] = "\tWelcome to the Student Management System\n";
+    for (int i = 0; i < strlen(welcome); i++) {
+        printf("\033[1;36m%c\033[0m", welcome[i]);
+        usleep(1000);
+    }
     printf("\033[1;36m=============================================================\033[0m\n");
-    usleep(500000);
+    usleep(800000);
 
     char c;
     student* head = NULL;
@@ -52,7 +56,9 @@ int main() {
         switch (choice) {
             case 1:
                 {
-                    printf("\033[1;32mCreating a student list...\033[0m\n");
+                    freelist(head);
+                    head = NULL;
+                    printf("\033[1;32mCreating a new student list...\033[0m\n");
                     usleep(500000);
                     student* temp = createstudent();
                     if (head == NULL) {
@@ -172,13 +178,13 @@ int main() {
                 }
                 break;
             case 8:
-                printf("\033[1;32mDeleting the last student...\033[0m\n");
-                usleep(500000);
                 deletelaststudent(head);
-                printf("\033[1;32mLast student deleted.\033[0m\n");
                 break;
             case 9:
                 {
+                    if(head == NULL){
+                        printf("\033[1;31mList is empty.\033[0m\n");}
+                        break;
                     printf("\033[1;32mDeleting student by ID...\033[0m\n");
                     usleep(500000);
                     long id_num;
@@ -187,18 +193,22 @@ int main() {
                         printf("\033[1;31mInvalid input. Please enter a number.\033[0m\n");
                         scanf("%*[^\n]");
                     }
-                    deleteById(&head, id_num);
-                    if (findstudent(head, id_num) == -1)
-                        printf("\033[1;31mStudent not found.\033[0m\n");
-                    else 
+                    if (findstudent(head, id_num) == -1){
+                        printf("\033[1;31mStudent not found.\033[0m\n");}
+                    else {
                         printf("\033[1;32mStudent deleted successfully.\033[0m\n");
+                    deleteById(&head, id_num);}
                 }
                 break;
             case 10:
                 printf("\033[1;31mFreeing all lists...\033[0m\n");
                 usleep(500000);
                 freelist(head);
+                freelist(highlevel);
+                freelist(lowlevel);
                 head = NULL;
+                highlevel = NULL;
+                lowlevel = NULL;
                 printf("\033[1;32mAll student data cleared.\033[0m\n");
                 break;
             case 11:
