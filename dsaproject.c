@@ -64,9 +64,19 @@ student* createstudent(void) {
         printf("Enter student name: ");
         scanf("%s", newStudent->name);
         printf("Enter student card ID number: ");
-        scanf("%ld", &newStudent->id_num);
+        while (scanf("%ld", &newStudent->id_num) != 1) {
+            printf("\033[1;31mInvalid input. Please enter a number.\033[0m\n");
+            scanf("%*[^\n]");
+        }
+        while (!check_valid_id(head, newStudent->id_num)) {
+            printf("\033[1;31mID already exists. Please enter a new ID.\033[0m\n");
+            scanf("%ld", &newStudent->id_num);
+        }
         printf("Enter student grade: ");
-        scanf("%f", &newStudent->grade);
+        while (scanf("%f", &newStudent->grade) != 1) {
+            printf("\033[1;31mInvalid input. Please enter a number.\033[0m\n");
+            scanf("%*[^\n]");
+        }
         printf("\n"); 
         getchar();
 
@@ -85,8 +95,6 @@ student* createstudent(void) {
     // Return the head of the list
     return head;
 }
-
-
 
 
 
