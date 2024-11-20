@@ -2,7 +2,6 @@
 #include <stdio.h> 
 #include <string.h> 
 #include "dsaproject.h" 
-#include "dsaproject.c"
 #include <stdlib.h> 
 #include <unistd.h> 
 #define MAX 50
