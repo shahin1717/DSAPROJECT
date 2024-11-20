@@ -33,6 +33,7 @@ student* createstudent(void) {
     return newstudent;
 }*/
 
+
 student* createstudent(void) {
     struct student *head = NULL;      // Pointer to the head of the list
     struct student *current = NULL;   // Pointer to track the current student in the list
@@ -61,8 +62,6 @@ student* createstudent(void) {
         }
 
         // Prompt the user for student details
-        printf("Enter student name: ");
-        scanf("%s", newStudent->name);
         printf("Enter student card ID number: ");
         while (scanf("%ld", &newStudent->id_num) != 1) {
             printf("\033[1;31mInvalid input. Please enter a number.\033[0m\n");
@@ -72,6 +71,13 @@ student* createstudent(void) {
             printf("\033[1;31mID already exists. Please enter a new ID.\033[0m\n");
             scanf("%ld", &newStudent->id_num);
         }
+        getchar();
+        printf("Enter student name: ");
+        if (fgets(newStudent->name, MAX, stdin) == NULL) {
+            printf("Error reading name.\n");
+        }
+        newStudent->name[strcspn(newStudent->name, "\n")] = 0;
+                
         printf("Enter student grade: ");
         while (scanf("%f", &newStudent->grade) != 1) {
             printf("\033[1;31mInvalid input. Please enter a number.\033[0m\n");
