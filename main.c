@@ -83,8 +83,6 @@ int main() {
                     }
 
                     for (int i = 0; i < num; i++) {
-                        printf("Enter the name of the student %d: ", i+1);
-                        scanf("%s", name);
                         printf("Enter the ID of the student %d: ", i+1);
                         while (scanf("%ld", &id) != 1) {
                             printf("\033[1;31mInvalid input. Please enter a number.\033[0m\n");
@@ -97,6 +95,13 @@ int main() {
                                 scanf("%*[^\n]");
                             }
                         }
+                        getchar();
+                        printf("Enter the name of the student %d: ", i+1);
+                        if (fgets(name, MAX, stdin) == NULL) {
+                            printf("Error reading name.\n");
+                        }
+                        name[strcspn(name, "\n")] = 0; // Remove trailing newline
+                        
                         printf("Enter the grade of the student %d: ", i+1);
                         while (scanf("%f", &grade) != 1) {
                             printf("\033[1;31mInvalid input. Please enter a number.\033[0m\n");
