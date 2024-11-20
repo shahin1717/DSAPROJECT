@@ -198,7 +198,7 @@ int main() {
                 break;
             case 11:
                 printf("\t\t\t\033[1;32;40mThanks for using the Student Management System!!!\03\033[0m\n");
-                printf("\t\t\033[1;40mCreated by Alakparov Shahin, Alihzade Fidan, Aliyeva Nazrin\033[0m\n"); 
+                printf("\t\t\033[1;40mCreated by Alakparov Shahin, Alizada Fidan, Aliyeva Nazrin\033[0m\n"); 
                 printf("\t\t\t\t\033[1;40mExiting program...\02\033[0m\n");
                 exit(1);
                 break;
