@@ -24,7 +24,7 @@ int main() {
 
     while (1) {
         printf("\t\t\t\033[1;32mMenu:\033[0m\n");
-        printf("1. \033[1;34mEnter students\033[0m\n");
+        printf("1. \033[1;34mCreate list\033[0m\n");
         printf("2. \033[1;34mAdd new student\033[0m\n");
         printf("3. \033[1;34mSearch for a student\033[0m\n");
         printf("4. \033[1;34mDisplay student list\033[0m\n");
@@ -84,20 +84,20 @@ int main() {
 
                     printf("Enter number of students to add: ");
                     while (scanf("%d", &num) != 1) {
-                        printf("\033[1;31mInvalid input. Please enter a number.\033[0m\n");
+                        printf("\033[1;31mInvalid input. Please enter a number.\033[0m");
                         scanf("%*[^\n]"); // Clear the input buffer
                     }
 
                     for (int i = 0; i < num; i++) {
                         printf("Enter the ID of the student %d: ", i+1);
                         while (scanf("%ld", &id) != 1) {
-                            printf("\033[1;31mInvalid input. Please enter a number.\033[0m\n");
+                            printf("\033[1;31mInvalid input. Please enter a number.\033[0m");
                             scanf("%*[^\n]");
                         }
                         while (!check_valid_id(head, id)) {
                             printf("\033[1;33mID already used. Enter a different ID: \033[0m");
                             while (scanf("%ld", &id) != 1) {
-                                printf("\033[1;31mInvalid input. Please enter a number.\033[0m\n");
+                                printf("\033[1;31mInvalid input. Please enter a number.\033[0m");
                                 scanf("%*[^\n]");
                             }
                         }
@@ -181,24 +181,24 @@ int main() {
                 deletelaststudent(head);
                 break;
             case 9:
-                {
-                    if(head == NULL){
-                        printf("\033[1;31mList is empty.\033[0m\n");}
-                        break;
-                    printf("\033[1;32mDeleting student by ID...\033[0m\n");
-                    usleep(500000);
-                    long id_num;
-                    printf("Enter the ID of the student you want to delete: ");
-                    while (scanf("%ld", &id_num) != 1) {
-                        printf("\033[1;31mInvalid input. Please enter a number.\033[0m\n");
-                        scanf("%*[^\n]");
+                
+                if(head == NULL){
+                printf("\033[1;31mList is empty.\033[0m\n");
+                    break;}
+                printf("\033[1;32mDeleting student by ID...\033[0m\n");
+                usleep(500000);
+                long id_num;
+                printf("Enter the ID of the student you want to delete: ");
+                while (scanf("%ld", &id_num) != 1) {
+                    printf("\033[1;31mInvalid input. Please enter a number.\033[0m\n");
+                    scanf("%*[^\n]");
                     }
-                    if (findstudent(head, id_num) == -1){
-                        printf("\033[1;31mStudent not found.\033[0m\n");}
-                    else {
-                        printf("\033[1;32mStudent deleted successfully.\033[0m\n");
+                if (findstudent(head, id_num) == -1){
+                    printf("\033[1;31mStudent not found.\033[0m\n");}
+                else {
+                    printf("\033[1;32mStudent deleted successfully.\033[0m\n");
                     deleteById(&head, id_num);}
-                }
+                
                 break;
             case 10:
                 printf("\033[1;31mFreeing all lists...\033[0m\n");
