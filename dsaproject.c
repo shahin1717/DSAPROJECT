@@ -172,7 +172,10 @@ void deletelaststudent(student* head) {
     }
     if (prev == NULL) {
         free(temp);
+        free(head);
+        temp = NULL;
         head = NULL;
+
     } else {
         prev->next = NULL;
         free(temp);
@@ -302,9 +305,9 @@ void splitlist(struct student *head, struct student **higher, struct student **l
     sortlist(*higher); // sort students that got more than 65
 
     // Print the higher and lower lists
-    printf("[1;34mHigher than 65:\033[0m\n");
+    printf("\033[1;34mHigher than 65:\033[0m\n");
     displaylist(*higher);
-    printf("1;34mLower than 65:\033[0m\n");
+    printf("\033[1;34mLower than 65:\033[0m\n");
     displaylist(*lower);
 }
 
