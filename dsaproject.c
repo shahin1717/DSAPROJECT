@@ -1,8 +1,10 @@
+
 #include <stdio.h>
 #include <string.h>
 #include "dsaproject.h"
 #include <stdlib.h>
 #include <unistd.h>
+#define MAX 50
 
 bool check_valid_id(student* head,long id) {
     student* temp = head;
@@ -180,6 +182,7 @@ void deletelaststudent(student* head) {
         c=getchar();
         return;
     }
+    printf("\033[1;32mDeleting the last student...\033[0m\n");
     student* temp = head;
     student* prev = NULL;
     while (temp->next != NULL) {
@@ -193,6 +196,8 @@ void deletelaststudent(student* head) {
         prev->next = NULL;
         free(temp);
     }
+                usleep(500000);
+    printf("\033[1;32mLast student deleted.\033[0m\n");
 }
 
 void deleteById(struct student **head, long id_num) {
@@ -349,5 +354,4 @@ void freelist(struct student* head) {
         free(temp);  // Free the current node
     }
     head = NULL;  // Set the head to NULL after freeing
-    printf("List freed.\n");
 }
