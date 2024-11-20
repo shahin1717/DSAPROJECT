@@ -11,17 +11,19 @@ typedef struct student {
 } student;
 
 // Function prototypes
+bool check_valid_id(student* head,long id);
 struct student* createstudent(void); 
 void displaylist(struct student*); 
-struct student* addstudent(struct student *,char [],long ,float ); 
+struct student* addstudent(struct student *,char [],long ,float );  
 int studentcount(struct student*);
 int findstudent(struct student*, long); 
 void deletelaststudent(struct student* ); 
+void deleteById(struct student** ,long );
 void sortlist(struct student* ); 
 float averagexam (struct student *); 
+void freelist(struct student*); 
 void splitlist(struct student*,struct student**, struct student**); 
 struct student* mergelists(struct student*, struct student*); 
-bool check_valid_id(student*,long );
-void freelist(struct student* );
-void deleteById(struct student**, long);
+
 #endif // DSAPROJECT_H
+
