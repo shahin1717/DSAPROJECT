@@ -16,25 +16,6 @@ bool check_valid_id(student* head,long id) {
     }
     return true;
 } 
-/*
-student* createstudent(void) {
-    // Dynamically allocate memory for the student
-    student* newstudent = (student*)malloc(sizeof(student));
-    if (newstudent == NULL) {
-        printf("\033[1;31mMemory allocation failed!\033[0m\n");
-        exit(1); // Exit if memory allocation fails
-    }
-    newstudent->next = NULL;
-    printf("Enter the name of the student: ");
-    scanf("%s", newstudent->name);
-    printf("Enter the ID of the student: ");
-    scanf("%ld", &newstudent->id_num);   
-    printf("Enter the grade of the student: ");
-    scanf("%f", &newstudent->grade);
-        
-    return newstudent;
-}*/
-
 
 student* createstudent(void) {
     struct student *head = NULL;      // Pointer to the head of the list
